@@ -61,6 +61,10 @@ class Restaurant < ApplicationRecord
   def self.csv_header_row
     %w(ID Name Street_Address Post_Code Number_of_chairs Category)
   end
+
+  def self.return_med_and_large
+    Restaurant.where("category LIKE '%medium' OR category LIKE '%large'")
+  end
 end
 
 
