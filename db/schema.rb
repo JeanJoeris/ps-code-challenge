@@ -20,8 +20,6 @@ ActiveRecord::Schema.define(version: 2019_10_20_201350) do
     t.string "street_address"
     t.string "post_code"
     t.integer "number_of_chairs"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "category"
   end
 
