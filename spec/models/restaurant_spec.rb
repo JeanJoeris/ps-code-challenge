@@ -40,5 +40,11 @@ describe Restaurant, type: :model do
       expect(Restaurant.find_post_codes("LS2")).to eq([@r4, @r5, @r6])
       expect(Restaurant.find_post_codes()).to eq([@r7, @r8, @r9])
     end
+
+    it "returns ls2 chair amounts to calculate percentile data" do
+
+
+      expect(Restaurant.percentile_data).to eq([20, 51, 96])
+    end
   end
 end
