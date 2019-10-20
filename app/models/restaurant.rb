@@ -35,6 +35,14 @@ class Restaurant < ApplicationRecord
     data.sort
   end
 
+  def self.organize_by_category
+    self.select("restaurants.category as category, count(restaurants.post_code) as total_places, sum(restaurants.number_of_chairs) as total_chairs").group("category")
+  end
+
+  # organize_by_category in sql
+  def category_table
+    "SELECT restaurants.category as category, count(restaurants.post_code) as total_places, sum(restaurants.number_of_chairs) as total_chairs FROM restaurants GROUP BY restaurants.category;"
+  end
 end
 
 # SELECT restaurants.post_code as post_code, count(restaurants.post_code) as total_places, sum(restaurants.number_of_chairs) as total_chairs, (CAST(sum(restaurants.number_of_chairs) as Float) / CAST((SELECT SUM(number_of_chairs) FROM restaurants) as Float) * 100) as chairs_pct, MAX(number_of_chairs) as max_chairs FROM restaurants GROUP BY restaurants.post_code;
