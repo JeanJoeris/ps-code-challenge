@@ -46,5 +46,43 @@ describe Restaurant, type: :model do
 
       expect(Restaurant.percentile_data).to eq([20, 51, 96])
     end
+
+    it "Creates a query that returns the columns, category, total_places, and total_chairs" do
+      # "ls1 small"
+      Restaurant.create(name: "Small restaurant 1", street_address: "Waterloo House, Assembly Street", post_code: "LS1 7DB", number_of_chairs: 9, category: "ls1 small")
+      Restaurant.create(name: "Small Restaurant 2", street_address: "1221 Hedge Lane", post_code: "LS1 7DC", number_of_chairs: 5, category: "ls1 small")
+      Restaurant.create(name: "Small restaurant 3", street_address: "5554 West 35th ave", post_code: "LS1 7DB", number_of_chairs: 7, category: "ls1 small")
+
+      # "ls1 medium"
+      Restaurant.create(name: "Medium restaurant 1", street_address: "address medium 1", post_code: "LS1 7DB", number_of_chairs: 22, category: "ls1 medium")
+      Restaurant.create(name: "Medium restaurant 2", street_address: "address medium 2", post_code: "LS1 7DB", number_of_chairs: 34, category: "ls1 medium")
+      Restaurant.create(name: "Medium restaurant 3", street_address: "address medium 3", post_code: "LS1 7DB", number_of_chairs: 19, category: "ls1 medium")
+
+      # "ls1 large"
+      Restaurant.create(name: "Large restaurant 1", street_address: "address large 1", post_code: "LS1 7DB", number_of_chairs: 100, category: "ls1 large")
+      Restaurant.create(name: "Large restaurant 2", street_address: "address large 2", post_code: "LS1 7DB", number_of_chairs: 122, category: "ls1 large")
+
+
+      # "ls2 small"
+      Restaurant.create(name: "small restaurant ls2 1", street_address: "ls2 address small 1", post_code: "LS2 7DB", number_of_chairs: 1, category: "ls2 small")
+      Restaurant.create(name: "small restaurant ls2 2", street_address: "ls2 address small 2", post_code: "LS2 7DB", number_of_chairs: 3, category: "ls2 small")
+      Restaurant.create(name: "small restaurant ls2 3", street_address: "ls2 address small 3", post_code: "LS2 7DB", number_of_chairs: 5, category: "ls2 small")
+
+      "ls2 large"
+      Restaurant.create(name: "Large restaurant 2", street_address: "ls2 address large 3", post_code: "LS2 7DB", number_of_chairs: 27, category: "ls2 large")
+      Restaurant.create(name: "Large restaurant 2", street_address: "ls2 address large 3", post_code: "LS2 7DB", number_of_chairs: 33, category: "ls2 large")
+
+
+      "other"
+      Restaurant.create(name: "Other category grill", street_address: "other address 1", post_code: "LS7 7DB", number_of_chairs: 16, category: "other")
+      Restaurant.create(name: "Other category grill", street_address: "other address 1", post_code: "LS7 7DB", number_of_chairs: 16, category: "other")
+      Restaurant.create(name: "Other category grill", street_address: "other address 1", post_code: "LS7 7DB", number_of_chairs: 16, category: "other")
+      Restaurant.create(name: "Other category grill", street_address: "other address 1", post_code: "LS7 7DB", number_of_chairs: 16, category: "other")
+
+      expect(Restaurant.organize_by_category).to eq("not sure yet")
+    end
   end
 end
+# category: The category column
+# total_places: The number of places in that category
+# total_chairs: The total chairs in that category
