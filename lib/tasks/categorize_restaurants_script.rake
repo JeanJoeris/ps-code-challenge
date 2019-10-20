@@ -1,18 +1,28 @@
 require 'csv'
 require 'pry'
-# require 'config/environment'
 
 namespace :import do
   desc "Using initial csv data to categorize existing restaurants"
   task categorize_restaurants: :environment do
-    # CSV.foreach('./data/street_cafes_2015-16.csv', headers: true) do |row|
-    #   row_data = row.to_h
-    ls1_restaurants = Restaurant.find_post_codes("LS1")
-    ls2_restaurants = Restaurant.find_post_codes("LS2")
-    other_restaurants = Restaurant.find_post_codes()
+    @ls1_restaurants = Restaurant.find_post_codes("LS1")
+    @ls2_restaurants = Restaurant.find_post_codes("LS2")
+    @other_restaurants = Restaurant.find_post_codes()
 
-    percentile_data = Restaurant.collect_ls2_chair_amounts
+    def percentile_50
+      percentile_data = Restaurant.percentile_data(@ls2_restaurants)
+      index = (percentile_data.length * 0.5)
+      if index.floor == index
+        (percentile_data[index.to_i - 1] + percentile_data[index.to_i]) / 2.0
+      else
+        percentile_data[index.ceil - 1]
+      end
+    end
 
+
+
+    percentile_50
+
+    binding.pry
 
     # ls1_restaurants.each do |restaurant|
     #   chair_count = restaurant.number_of_chairs
