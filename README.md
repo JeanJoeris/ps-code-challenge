@@ -57,7 +57,7 @@
 
 <p>This application is tested using RSpec, to set up, run ``rails g rspec:install`` and then ``rspec``</p>
 
-<h5>Testing the categorize script</h5>
+<h5>Testing the categorize and post_code script</h5>
 
 <p>``find_post_code()`` method used and tested to return restaurants based on their prefix</p>
 <p>``percentile_data()`` method used and tested to supply the dataset necessary to calculate percentiles</p>
