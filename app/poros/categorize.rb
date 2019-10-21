@@ -42,4 +42,11 @@ class Categorize
     end
   end
 
+  def concat_name_and_category(restaurants)
+      restaurants.each do |restaurant|
+        new_name = "#{restaurant.category} #{restaurant.name}"
+      restaurant.update_column(:name, new_name)
+    end
+  end
+
 end
