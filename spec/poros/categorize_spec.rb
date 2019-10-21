@@ -75,6 +75,35 @@ describe Categorize do
     expect(other_1_reload.category).to eq("other")
     expect(other_2_reload.category).to eq("other")
   end
+  describe "concatenate names med large rake task method tests" do
+    it "concatenates med and large restaurants category and name, and writes it to category" do
+    small_1 = Restaurant.create(name: "r1", street_address: "27 North Parade", post_code: "LS7 5BN", number_of_chairs: 15, category: "ls1 small")
+    small_2 = Restaurant.create(name: "r2", street_address: "27 North Parade", post_code: "LS5 5BN", number_of_chairs: 20, category: "ls1 small")
 
+    med_1 = Restaurant.create(name: "r3", street_address: "27 North Parade", post_code: "LS7 5BN", number_of_chairs: 15, category: "ls1 medium")
+    med_2 = Restaurant.create(name: "r4", street_address: "27 North Parade", post_code: "LS5 5BN", number_of_chairs: 20, category: "ls1 medium")
 
+    large_1 = Restaurant.create(name: "r5", street_address: "27 North Parade", post_code: "LS7 5BN", number_of_chairs: 15, category: "ls1 large")
+    large_2 = Restaurant.create(name: "r6", street_address: "27 North Parade", post_code: "LS5 5BN", number_of_chairs: 20, category: "ls1 large")
+
+    categorize = Categorize.new
+    med_and_large = Restaurant.return_med_and_large
+
+    expect(med_and_large).to eq([med_1, med_2, large_1, large_2])
+
+    categorize.concat_name_and_category(med_and_large)
+
+    m1_reload = med_1.reload
+    m2_reload = med_2.reload
+
+    l1_reload = large_1.reload
+    l2_reload = large_2.reload
+
+    expect(l1_reload.name).to eq("ls1 large r5")
+    expect(l2_reload.name).to eq("ls1 large r6")
+
+    expect(m1_reload.name).to eq("ls1 medium r3")
+    expect(m2_reload.name).to eq("ls1 medium r4")
+    end
+  end
 end
