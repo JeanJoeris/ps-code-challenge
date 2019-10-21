@@ -70,13 +70,9 @@
 
 <p>This application is tested using RSpec, to set up, run ``rails g rspec:install`` and then ``rspec``</p>
 
-<h5>Testing the script to categorize restaurants, export small restuarants, and concatenate the names of medium and large restaurants</h5>
+<h5>Scripts/ rake task testing</h5>
 
-<p>``find_post_code()`` method used and tested to return restaurants based on their prefix</p>
-<p>``percentile_data()`` method used and tested to supply the dataset necessary to calculate percentiles</p>
-<p>``small_street_cafes`` method used and tested to return all restaurants categorized as small</p>
-<p>``return_med_and_large`` method used and tested to return all restaurants categorized as medium and large</p>
-<p>These methods are all tested in the restaurant model</p>
+<p>All methods used in the scripts are consolidated to the Restaurant model and Categorize poro and are tested individually.</p>
   
 
 
