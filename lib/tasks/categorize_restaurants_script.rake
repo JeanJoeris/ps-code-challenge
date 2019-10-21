@@ -9,7 +9,7 @@ namespace :import do
     ls2_restaurants = Restaurant.find_post_codes("LS2")
 
     categorize.set_ls1_categories(Restaurant.find_post_codes("LS1"))
-    categorize.set_ls2_categories(Restaurant.find_post_codes("LS2"), categorize.percentile_50(ls2_restaurants))
+    categorize.set_ls2_categories(Restaurant.find_post_codes("LS2"), categorize.percentile_50("LS2"))
     categorize.set_other_categories(Restaurant.find_post_codes())
 
   end
