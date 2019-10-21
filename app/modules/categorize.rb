@@ -4,7 +4,7 @@ class Categorize
   end
 
   def percentile_50(dataset)
-    percentile_data = Restaurant.percentile_data(dataset)
+    percentile_data = Restaurant.percentile_data("LS2").sort
     index = (percentile_data.length * 0.5)
     if index.floor == index
       (percentile_data[index.to_i - 1] + percentile_data[index.to_i]) / 2.0
