@@ -1,24 +1,68 @@
-# README
+# Code challenge submission
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<h4>Versioning</h4>
 
-Things you may want to cover:
+<p>This Application was built in (Rails) 5.2.3 and (PostgreSQL) 11.4</p>
 
-* Ruby version
+<h4>Application Walkthrough</h4>
 
-* System dependencies
+  - clone the repository
+  - cd into the repository
+  - run $ ``bundle`` from the command line
+  - run $ ``rails db:create`` to create the database
+  - run $ ``rails db:migrate`` to create a users table in the database
+  - run $ ``rake import:cafe_data`` to import the Street Cafe csv data included in the code challenge repository
+  
+<ul>
+  
+  <li>At this point the first view will be available to query with the command ``SELECT * FROM post_code_info;`` The SQL used is as follows </li>
 
-* Configuration
+``CREATE VIEW post_code_info
+              AS
+              WITH summary AS (
+                SELECT
+                    r.post_code,
+                    r.number_of_chairs,
+                    r.name,
+                    ROW_NUMBER() OVER(PARTITION BY r.post_code ORDER BY r.number_of_chairs DESC) as rk
+                 FROM restaurants r)
+              SELECT s.post_code, agg_tbl.total_places, agg_tbl.total_chairs, agg_tbl.chairs_pct, s.name as          place_with_max_chairs, s.number_of_chairs as max_chairs
+              FROM summary s
+              INNER JOIN (SELECT post_code,
+                                   SUM(number_of_chairs) as total_chairs,
+                                   (CAST(sum(restaurants.number_of_chairs) as Float) / CAST((SELECT SUM(number_of_chairs) FROM restaurants) as Float) * 100) as chairs_pct,
+                                   count(restaurants.post_code) as total_places
+                                   FROM restaurants GROUP BY post_code) agg_tbl ON (agg_tbl.post_code = s.post_code)
+              WHERE s.rk = 1;``
+              
+<li>This statement was verified by breaking up each subquery writing the activerecord equivalent using smaller dummy datasets.</li>
+              
+  <li>From here run the command ``rake import:categorize_restaurants`` .. when finished the second view will be available with the command ``SELECT * FROM categories_info`` The SQL used is as follows </li>
 
-* Database creation
+``CREATE VIEW categories_info
+              AS
+                SELECT restaurants.category              AS category,
+                       Count(restaurants.post_code)      AS total_places,
+                       Sum(restaurants.number_of_chairs) AS total_chairs
+                FROM   restaurants
+                GROUP  BY restaurants.category;``
+                
+  <li>Now you can run the task ``rake export:small_street_cafes`` this will generate a csv in the file tree according to the spec.</li>
 
-* Database initialization
+  <li>The final task can be run with the command ``rake import:update_names`` this will update all medium and large cafe/restaurants name as a concatenated string with the category prefix before their name.</li>
 
-* How to run the test suite
+</ul>
 
-* Services (job queues, cache servers, search engines, etc.)
+<h4>Testing</h4>
 
-* Deployment instructions
+<p>This application is tested using RSpec, to set up, run ``rails g rspec:install`` and then ``rspec``</p>
 
-* ...
+<h5>Testing the categorize script</h5>
+
+<p>``find_post_code()`` method used and tested to return restaurants based on their prefix</p>
+<p>``percentile_data()`` method used and tested to supply the dataset necessary to calculate percentiles</p>
+<p>``small_street_cafes`` method used and tested to return all restaurants categorized as small</p>
+<p>``return_med_and_large`` method used and tested to return all restaurants categorized as medium and large</p>
+
+
+
