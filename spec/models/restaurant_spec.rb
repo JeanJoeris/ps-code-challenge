@@ -44,7 +44,7 @@ describe Restaurant, type: :model do
     it "returns ls2 chair amounts to calculate percentile data" do
 
 
-      expect(Restaurant.percentile_data).to eq([20, 51, 96])
+      expect(Restaurant.percentile_data("LS2")).to eq([20, 51, 96])
     end
 
     it "Creates a query that returns the columns, category, total_places, and total_chairs" do

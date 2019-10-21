@@ -17,9 +17,8 @@ class Restaurant < ApplicationRecord
     end
   end
 
-  def self.percentile_data(restaurants)
-    data = restaurants.map {|restaurant| restaurant.number_of_chairs }
-    data.sort
+  def self.percentile_data(prefix)
+    Restaurant.where("post_code LIKE ?", "#{prefix}%").select("number_of_chairs").pluck("number_of_chairs")
   end
 
   def self.organize_by_category
