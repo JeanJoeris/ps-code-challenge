@@ -30,7 +30,7 @@
               FROM summary s
               INNER JOIN (SELECT post_code,
                                    SUM(number_of_chairs) as total_chairs,
-                                   (CAST(sum(restaurants.number_of_chairs) as Float) / CAST((SELECT SUM(number_of_chairs) FROM restaurants) as Float) * 100) as chairs_pct,
+                                   CAST((CAST(sum(restaurants.number_of_chairs) as Float) / CAST((SELECT SUM(number_of_chairs) FROM restaurants) as Float) * 100) as DECIMAL(10,2)) as chairs_pct,
                                    count(restaurants.post_code) as total_places
                                    FROM restaurants GROUP BY post_code) agg_tbl ON (agg_tbl.post_code = s.post_code)
               WHERE s.rk = 1;``
